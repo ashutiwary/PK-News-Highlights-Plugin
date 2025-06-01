@@ -104,4 +104,30 @@ function pk_display_news_highlights() {
 add_shortcode('pk_news_highlights', 'pk_display_news_highlights');
 
 
+// Admin Settings Page for manage post count for display in frontend
+function pk_register_settings() {
+    add_submenu_page('edit.php?post_type=pk_news_highlight', 'PK News Settings', 'Settings','manage_options','pk-news-settings','pk_news_settings_page');
+
+    function pk_news_settings_page() {
+    ?>
+    <div class="wrap">
+        <h1>PK News Highlights Settings</h1>
+        <form method="post" action="options.php">
+            <?php settings_fields('pk_news_settings_group'); ?>
+            <?php do_settings_sections('pk_news_settings_group'); ?>
+            <table class="form-table">
+                <tr valign="top">
+                    <th scope="row">Number of Highlights to Display</th>
+                    <td><input type="number" name="pk_news_count" value="<?php echo esc_attr(get_option('pk_news_count', 5)); ?>" /></td>
+                </tr>
+            </table>
+            <?php submit_button(); ?>
+        </form>
+    </div>
+    <?php
+    }
+    register_setting('pk_news_settings_group', 'pk_news_count');
+}
+add_action('admin_menu', 'pk_register_settings');
+
 ?>
