@@ -73,5 +73,35 @@ function pk_save_news_meta($post_id) {
 add_action('add_meta_boxes', 'pk_add_news_meta_boxes');
 add_action('save_post', 'pk_save_news_meta');
 
+// Shortcode to Display News Highlights
+function pk_display_news_highlights() {
+    $args = array(
+        'post_type' => 'pk_news_highlight',
+        'posts_per_page' => get_option('pk_news_count', 5),
+        'orderby' => 'date',
+        'order' => 'DESC',
+    );
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) {
+        $output = '<div class="pk-news-highlights">';
+        while ($query->have_posts()) {
+            $query->the_post();
+            $summary = get_post_meta(get_the_ID(), '_pk_summary', true);
+            $link = get_post_meta(get_the_ID(), '_pk_link', true);
+            $output .= '<div class="pk-news-item">';
+            $output .= '<h3><a href="' . esc_url($link) . '" target="_blank">' . get_the_title() . '</a></h3>';
+            $output .= '<p>' . esc_html($summary) . '</p>';
+            $output .= '</div>';
+        }
+        wp_reset_postdata();
+        $output .= '</div>';
+        return $output;
+    } else {
+        return '<p>No news highlights found.</p>';
+    }
+}
+add_shortcode('pk_news_highlights', 'pk_display_news_highlights');
+
 
 ?>
