@@ -3,7 +3,7 @@
  * Plugin Name: PK News Highlights
  * Description: Add and display news headlines with summaries and links.
  * Version: 1.0
- * Author: Your Name
+ * Author: Ashu Tiwary
  * Text Domain: pk-news-highlights
  */
 
@@ -57,6 +57,9 @@ function pk_news_meta_box_callback($post) {
     <p>
         <label for="pk_link">Link:</label><br>
         <input type="url" id="pk_link" name="pk_link" value="<?php echo esc_url($link); ?>" style="width:100%;" />
+    </p>
+    <p style="margin-top:20px; color:#555;">
+        For Display these Posts on Frontend use Shortcode <code>[pk_news_highlights]</code>
     </p>
     <?php
 }
